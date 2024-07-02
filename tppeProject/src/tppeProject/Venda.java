@@ -12,8 +12,9 @@ public class Venda {
     private List<Produto> itensVendidos;
     private String metodoPagamento;
     private Date dataVenda;
+    private boolean utilizaCashback;
 
-    public Venda(String data, Cliente cliente, List<Produto> itensVendidos, String metodoPagamento) {
+    public Venda(String data, Cliente cliente, List<Produto> itensVendidos, String metodoPagamento, boolean utilizaCashback) {
         this.data = data;
         this.cliente = cliente;
         this.itensVendidos = itensVendidos;
@@ -23,6 +24,7 @@ public class Venda {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        this.utilizaCashback = utilizaCashback;
     }
 
     public double calcularValorTotal() {
@@ -107,16 +109,24 @@ public class Venda {
         double totalComImpostos = totalComDesconto + impostos;
         double totalComFrete = totalComImpostos + frete;
 
+        if(utilizaCashback && cliente.getSaldoCashback() > 0) {
+        	double totalComCashback = totalComFrete - cliente.getSaldoCashback();
+        	cliente.setSaldoCashback(0);
+        	return totalComCashback;
+        }
+        
         return totalComFrete;
     }
 
     public double calcularCashback() {
-        double total = calcularValorTotal();
+        double total = calcularTotal();
         double cashback = 0;
 
         if (cliente.getTipo().equals("prime")) {
             cashback = total * (metodoPagamento.startsWith("4296 13") ? 0.05 : 0.03);
         }
+        
+        cliente.setSaldoCashback(cliente.getSaldoCashback() + cashback);
 
         return cashback;
     }
