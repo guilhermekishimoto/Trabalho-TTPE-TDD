@@ -1,19 +1,17 @@
 package tppeProject;
 
-
 public class Produto {
     private String codigo;
     private String descricao;
     private double valorVenda;
-    private String unidade;
+    private UnidadeMedida unidade;  // Campo vindo da refatoração de extração de classe
 
-    public Produto(String codigo, String descricao, double valorVenda, String unidade) {
+    public Produto(String codigo, String descricao, double valorVenda, UnidadeMedida unidade) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.valorVenda = valorVenda;
         this.unidade = unidade;
     }
-
 
     public String getCodigo() {
         return codigo;
@@ -39,11 +37,11 @@ public class Produto {
         this.valorVenda = valorVenda;
     }
 
-    public String getUnidade() {
+    public UnidadeMedida getUnidade() {
         return unidade;
     }
 
-    public void setUnidade(String unidade) {
+    public void setUnidade(UnidadeMedida unidade) {
         this.unidade = unidade;
     }
 }
