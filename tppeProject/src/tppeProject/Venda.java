@@ -28,107 +28,23 @@ public class Venda {
     }
 
     public double calcularValorTotal() {
-        double total = 0;
-        for (Produto item : itensVendidos) {
-            total += item.getValorVenda();
-        }
-        return total;
+        return new CalculadoraTotalVenda(this).calcularValorTotal();
     }
-
     public double calcularFrete() {
-        double frete = 0;
-        String estado = cliente.getEstado();
-        boolean capital = cliente.isCapital();
-
-        switch (estado) {
-            case "DF":
-                frete = 5.0;
-                break;
-            case "Centro-oeste":
-                frete = capital ? 10.0 : 13.0;
-                break;
-            case "Nordeste":
-                frete = capital ? 15.0 : 18.0;
-                break;
-            case "Norte":
-                frete = capital ? 20.0 : 25.0;
-                break;
-            case "Sudeste":
-                frete = capital ? 7.0 : 10.0;
-                break;
-            case "Sul":
-                frete = capital ? 10.0 : 13.0;
-                break;
-        }
-
-        if (cliente.getTipo().equals("especial")) {
-            frete *= 0.7; // 30% de desconto no frete
-        } else if (cliente.getTipo().equals("prime")) {
-            frete = 0; // Frete grátis para clientes prime
-        }
-
-        return frete;
+        return new CalculadoraTotalVenda(this).calcularFrete();
     }
-
     public double calcularDesconto() {
-        double desconto = 0;
-        double total = calcularValorTotal();
-
-        if (cliente.getTipo().equals("especial")) {
-            desconto += total * 0.1; // Desconto de 10%
-            if (metodoPagamento.startsWith("4296 13")) {
-                desconto += total * 0.1; // Desconto adicional de 10%
-            }
-        }
-
-        return desconto;
+        return new CalculadoraTotalVenda(this).calcularDesconto();
     }
-
     public double calcularImpostos() {
-        double total = calcularValorTotal();
-        double icms = 0;
-        double impostoMunicipal = 0;
-
-        if (cliente.getEstado().equals("DF")) {
-            icms = total * 0.18;
-        } else {
-            icms = total * 0.12;
-            impostoMunicipal = total * 0.04;
-        }
-
-        return icms + impostoMunicipal;
+        return new CalculadoraTotalVenda(this).calcularImpostos();
     }
-
-    public double calcularTotal() {
-        double total = calcularValorTotal();
-        double frete = calcularFrete();
-        double desconto = calcularDesconto();
-        double impostos = calcularImpostos();
-        
-        double totalComDesconto = total - desconto;
-        double totalComImpostos = totalComDesconto + impostos;
-        double totalComFrete = totalComImpostos + frete;
-
-        if(utilizaCashback && cliente.getSaldoCashback() > 0) {
-        	double totalComCashback = totalComFrete - cliente.getSaldoCashback();
-        	cliente.setSaldoCashback(0);
-        	return totalComCashback;
-        }
-        
-        return totalComFrete;
+    public double calcularTotalVenda() {
+        return new CalculadoraTotalVenda(this).calcular();
     }
 
     public double calcularCashback() {
-        double total = calcularTotal();
-        double cashback = 0;
-
-        if (cliente.getTipo().equals("prime")) {
-            cashback = total * (metodoPagamento.startsWith("4296 13") ? 0.05 : 0.03);
-        }
-        
-        cliente.setSaldoCashback(cliente.getSaldoCashback() + cashback);
-
-        return cashback;
+        return new CalculadoraTotalVenda(this).calcular();
     }
 
     public boolean isUltimoMes() {
@@ -140,5 +56,21 @@ public class Venda {
 
     public Cliente getCliente() {
         return cliente;
+    }
+
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public List<Produto> getItensVendidos() {
+        return itensVendidos;
+    }
+
+    public boolean getUtilizaCashback() {
+        return utilizaCashback;
+    }
+
+    public Date getDataVenda() {
+        return dataVenda;
     }
 }
