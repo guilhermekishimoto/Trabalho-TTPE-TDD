@@ -64,6 +64,11 @@ public class Cliente {
 
     public boolean verificarElegibilidadeEspecial() {
         double totalVendasUltimoMes = calcularTotalVendasUltimoMes();
+        return atualizarTipoBaseadoEmVendas(totalVendasUltimoMes);
+    }
+    
+    // Refatoração extraindo a lógica que antes estava presente no método verificarElegibilidadeEspecial. Dessa forma esse método seguinte será exclusivo para a definição do tipo do cliente
+    private boolean atualizarTipoBaseadoEmVendas(double totalVendasUltimoMes) {
         if (totalVendasUltimoMes > 100 && this.tipo.equals("padrão")) {
             this.tipo = "especial";
             return true;
@@ -73,5 +78,7 @@ public class Cliente {
         }
         return this.tipo.equals("especial");
     }
-}
+    }
+
+
 
