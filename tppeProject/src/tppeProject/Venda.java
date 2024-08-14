@@ -44,7 +44,7 @@ public class Venda {
     }
 
     public double calcularCashback() {
-        return new CalculadoraTotalVenda(this).calcular();
+        return new CalculadoraTotalVenda(this).calcularCashback();
     }
 
     public boolean isUltimoMes() {

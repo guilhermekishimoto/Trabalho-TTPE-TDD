@@ -1,7 +1,7 @@
 package tppeProject;
 
  /* 
- Classe resultante da refatoração objeto=método. Aproveitamos para centralizar todos os cálculos que antes estavam em 
+ Classe resultante da refatoração objeto-método. Aproveitamos para centralizar todos os cálculos que antes estavam em 
  venda, fazendo essa classe como a única responsável. Venda apenas utiliza esses métodos.
 */
 
