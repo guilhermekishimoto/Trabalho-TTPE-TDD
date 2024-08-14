@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import tppeProject.Cliente;
 import tppeProject.Produto;
+import tppeProject.UnidadeMedida;
+import tppeProject.UnidadeMedida.TipoUnidade;
 import tppeProject.Venda;
 
 import java.util.Arrays;
@@ -39,10 +41,11 @@ public class VendaTest {
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
-        Produto produto1 = new Produto("001", "Produto A", 100.0, "unidade");
-        Produto produto2 = new Produto("002", "Produto B", 50.0, "unidade");
-        Produto produto3 = new Produto("003", "Produto C", 25.0, "unidade");
-        Produto produto4 = new Produto ("004", "Produto D", 200.0, "metro");
+        Produto produto1 = new Produto("001", "Produto A", 100.0, new UnidadeMedida(TipoUnidade.UNIDADE));
+        Produto produto2 = new Produto("002", "Produto B", 50.0, new UnidadeMedida(TipoUnidade.UNIDADE));
+        Produto produto3 = new Produto("003", "Produto C", 25.0, new UnidadeMedida(TipoUnidade.UNIDADE));
+        Produto produto4 = new Produto("004", "Produto D", 200.0, new UnidadeMedida(TipoUnidade.METRO));
+        
         List<Produto> produtos1 = Arrays.asList(produto1, produto2);
         List<Produto> produtos2 = Arrays.asList(produto1);
         List<Produto> produtos3 = Arrays.asList(produto2);
@@ -55,12 +58,12 @@ public class VendaTest {
         Cliente cliente3 = new Cliente("Carlos", "prime", "Sudeste", true);
         Cliente cliente4 = new Cliente("Kishi", "prime", "Norte", true);
 
-        Venda venda1 = new Venda("2024-07-01", cliente1, produtos3, "1234 5678 9101 1121", false);
-        Venda venda2 = new Venda("2024-07-01", cliente2, produtos1, "1234 5678 9101 1121", false);
-        Venda venda3 = new Venda("2024-07-01", cliente3, produtos2, "4000 1312 3456 7890", false);
-        Venda venda4 = new Venda("2024-07-01", cliente4, produtos4, "4296 1344 6743 2222", false);
-        Venda venda5 = new Venda ("2024-07-01", cliente4, produtos5, "4296 1344 6743 2222", false);
-        Venda venda6 = new Venda("2024-07-01", cliente4, produtos6, "4296 1344 6743 2222", true);
+        Venda venda1 = new Venda("2024-08-01", cliente1, produtos3, "1234 5678 9101 1121", false);
+        Venda venda2 = new Venda("2024-08-01", cliente2, produtos1, "1234 5678 9101 1121", false);
+        Venda venda3 = new Venda("2024-08-01", cliente3, produtos2, "4000 1312 3456 7890", false);
+        Venda venda4 = new Venda("2024-08-01", cliente4, produtos4, "4296 1344 6743 2222", false);
+        Venda venda5 = new Venda("2024-08-01", cliente4, produtos5, "4296 1344 6743 2222", false);
+        Venda venda6 = new Venda("2024-08-01", cliente4, produtos6, "4296 1344 6743 2222", true);
 
         cliente1.adicionarVenda(venda1);
         cliente2.adicionarVenda(venda2);
@@ -101,7 +104,7 @@ public class VendaTest {
 
     @Test
     public void testCalcularTotal() {
-        assertEquals(totalEsperado, venda.calcularTotal(), 0.01);
+        assertEquals(totalEsperado, venda.calcularTotalVenda(), 0.01);
     }
 
     @Test
